@@ -3,6 +3,7 @@ import net from "net";
 import config from "./engine/config.js";
 import log from "./engine/module/log/index.js"
 import { EventManager } from "./engine/EventManager/EventManager.js";
+import { Auth } from "./engine/EventManager/Auth.js";
 
 const eventManager = new EventManager();
 

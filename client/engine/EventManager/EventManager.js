@@ -1,22 +1,16 @@
-import { UserPoolEvent } from "./UserPoolEvent.js";
-import { MessageEvent } from "./MessageEvent.js";
-import { KeyCheckEvent } from "./KeyCheckEvent.js";
+/**
+ *
+ * @type {Map<string, EventBase>}
+ */
+const events = new Map();
 
 export class EventManager {
-    constructor() {
-        this.events = [
-            new UserPoolEvent(),
-            new MessageEvent(),
-            new KeyCheckEvent()
-        ];
+    static register(event) {
+        events.set(event.name, event);
     }
 
     fire(data) {
-        this.data = data;
-        for (let event of this.events) {
-            if (event.name === this.data.type) {
-                event.actions(this.data);
-            }
-        }
+        if (events.has(data.type))
+            events.get(data.type).actions(data);
     }
 }

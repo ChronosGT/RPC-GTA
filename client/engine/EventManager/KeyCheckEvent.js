@@ -1,13 +1,19 @@
 import { EventBase } from "./EventBase.js";
-import { ChatManager } from "../ChatManager/ChatManager.js";
+import { EventManager } from "./EventManager.js";
+import { Encryptor } from "../Encryptor/Encryptor.js";
+import { KeyCompleteRPC } from "../EventRPC/KeyCompleteRPC.js";
 
-const chatManager = new ChatManager();
 
 export class KeyCheckEvent extends EventBase {
     name = "key_check";
 
     actions (data) {
-        this.data = data;
-        chatManager.fire(["key_complete", this.data.query[1], this.data.connection, this.data.query[0]]);
+        const encryptID = new Encryptor(data.query[1]);
+        const keyCompleteRPC = new KeyCompleteRPC(appOptions.key);
+
+        appOptions.user_keys[encryptID.getEncryptID()] = appKeyInfo.computeSecret(data.query[0], "base64");
+        data.connection.write(JSON.stringify(keyCompleteRPC.getMessage()));
     }
 }
+
+EventManager.register(new KeyCheckEvent());

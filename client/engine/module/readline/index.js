@@ -1,8 +1,8 @@
 import readline from "readline";
 import log from "../log/index.js";
-import { ChatManager } from "../../ChatManager/ChatManager.js";
+import { EventManager } from "../../EventManager/EventManager.js";
 
-const chatManager = new ChatManager();
+const eventManager = new EventManager();
 
 const readline_interface = readline.createInterface({
     input: process.stdin,
@@ -18,7 +18,7 @@ readline_interface.on("line", (res) => {
 
     if (client === "-1") {
         for (let item of appOptions.user_pool) {
-            chatManager.fire(["send_message", res, item]);
+            eventManager.fire({type: "send_message", message: res, client: item});
         }
         readline_interface.prompt();
         return;
@@ -31,7 +31,7 @@ readline_interface.on("line", (res) => {
         return;
     }
 
-    chatManager.fire(["send_message", res, appOptions.user_pool[index]]);
+    eventManager.fire({type: "send_message", message: res, client: appOptions.user_pool[index]});
 
     readline_interface.prompt();
 });

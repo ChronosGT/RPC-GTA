@@ -5,16 +5,15 @@ import log from "../module/log/index.js";
 import { EventBase } from "./EventBase.js";
 import { Encryptor } from "../Encryptor/Encryptor.js";
 import { UserPoolRPC } from "../EventRPC/UserPoolRPC.js";
+import { EventManager } from "./EventManager.js";
 
 export class Auth extends EventBase {
     name = "auth";
 
     actions(data) {
-        this.data = data;
-
-        if (this.data.query !== undefined) {
-            log.info(`Новое подключение: IP: ${this.data.query[0]} | Порт: ${this.data.query[1]}`);
-            appOptions.user_pool.push({address: this.data.query[0], port: this.data.query[1]});
+        if (data.query !== undefined) {
+            log.info(`Новое подключение: IP: ${data.query[0]} | Порт: ${data.query[1]}`);
+            appOptions.user_pool.push({address: data.query[0], port: data.query[1]});
         }
 
         for (let item of appOptions.user_pool) {
@@ -38,3 +37,5 @@ export class Auth extends EventBase {
         }
     }
 }
+
+EventManager.register(new Auth());
