@@ -1,9 +1,9 @@
-import { Broadcast } from "./Broadcast.js";
+import { Auth } from "./Auth.js";
 
 export class EventManager {
     constructor() {
         this.events = [
-            new Broadcast()
+            new Auth()
         ];
     }
 

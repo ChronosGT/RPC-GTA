@@ -6,7 +6,7 @@ import { EventBase } from "./EventBase.js";
 import { Encryptor } from "../Encryptor/Encryptor.js";
 import { UserPoolRPC } from "../EventRPC/UserPoolRPC.js";
 
-export class Broadcast extends EventBase {
+export class Auth extends EventBase {
     name = "auth";
 
     actions(data) {
