@@ -1,6 +1,6 @@
 import { Broadcast } from "./Broadcast.js";
 
-export class ChatManager {
+export class EventManager {
     constructor() {
         this.events = [
             new Broadcast()

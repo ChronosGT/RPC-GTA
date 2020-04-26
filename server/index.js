@@ -2,9 +2,9 @@ import net from "net";
 
 import config from "./engine/config.js";
 import log from "./engine/module/log/index.js"
-import { ChatManager } from "./engine/ChatManager/ChatManager.js";
+import { EventManager } from "./engine/EventManager/EventManager.js";
 
-const chatManager = new ChatManager();
+const eventManager = new EventManager();
 
 global.appOptions = {
   server: {
@@ -22,15 +22,15 @@ const server = net.createServer(connection => {
     data = data.toString();
     data = (typeof data === "object") ? data : JSON.parse(data);
 
-    chatManager.fire(data);
+    eventManager.fire(data);
   });
 
   connection.on('error', () => {
-    chatManager.fire({ type: "auth" });
+    eventManager.fire({ type: "auth" });
   });
 
   connection.on('close', () => {
-    chatManager.fire({ type: "auth" });
+    eventManager.fire({ type: "auth" });
   });
 
 });

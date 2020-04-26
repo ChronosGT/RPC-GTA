@@ -2,11 +2,11 @@ import net from "net";
 
 import log from "../module/log/index.js";
 
-import { ChatBase } from "./ChatBase.js";
+import { EventBase } from "./EventBase.js";
 import { Encryptor } from "../Encryptor/Encryptor.js";
 import { UserPoolRPC } from "../EventRPC/UserPoolRPC.js";
 
-export class Broadcast extends ChatBase {
+export class Broadcast extends EventBase {
     name = "auth";
 
     actions(data) {
