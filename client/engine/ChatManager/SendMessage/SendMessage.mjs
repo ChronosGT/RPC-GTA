@@ -1,22 +1,24 @@
 import net from "net";
 
-import { ChatManager } from "../ChatManager.mjs";
-import { EncryptID } from "../../Encryptor/EncryptID/EncryptID.mjs";
+import { ChatAbstract } from "../ChatAbstract.mjs";
+import { Encryptor } from "../../Encryptor/Encryptor.mjs";
 import { KeyCheckRPC } from "../../EventRPC/KeyRPC/KeyCheckRPC.mjs";
 import { MessageRPC } from "../../EventRPC/MessageRPC/MessageRPC.mjs";
-import { EncryptKey } from "../../Encryptor/EncryptKey/EncryptKey.mjs";
 
 
-export class SendMessage extends ChatManager {
-    constructor(message, client) {
+export class SendMessage extends ChatAbstract {
+    name = "send_message";
+
+    constructor(data) {
         super();
-        this.message = message;
-        this.client = client;
+        this.message = data[1];
+        this.client = data[2];
     }
 
-    action() {
-        const encryptID = new EncryptID(this.client);
-        let encrypt_address = encryptID.getData();
+    actions() {
+
+        const encryptID = new Encryptor(this.client);
+        let encrypt_address = encryptID.getEncryptID();
 
         if (appOptions.connections[encrypt_address] === undefined) {
             appOptions.connections[encrypt_address] = net.connect(this.client.port, this.client.address).setEncoding('utf8');
@@ -32,15 +34,15 @@ export class SendMessage extends ChatManager {
                 if (data.type === "key_complete") {
                     appOptions.user_keys[encrypt_address] = appKeyInfo.computeSecret(data.query[0], "base64");
                     const key = appOptions.user_keys[encrypt_address];
-                    const encryptKey = new EncryptKey(key, this.message);
-                    const messageRPC = new MessageRPC(appOptions.client, encryptKey.getData(), new Date().getTime());
+                    const encryptKey = new Encryptor(this.message, key);
+                    const messageRPC = new MessageRPC(appOptions.client, encryptKey.getEncrypt(), new Date().getTime());
                     appOptions.connections[encrypt_address].write(JSON.stringify(messageRPC.getMessage()));
                 }
             })
         } else {
             const key = appOptions.user_keys[encrypt_address];
-            const encryptKey = new EncryptKey(key, this.message);
-            const messageRPC = new MessageRPC(appOptions.client, encryptKey.getData(), new Date().getTime());
+            const encryptKey = new Encryptor(this.message, key);
+            const messageRPC = new MessageRPC(appOptions.client, encryptKey.getEncrypt(), new Date().getTime());
             appOptions.connections[encrypt_address].write(JSON.stringify(messageRPC.getMessage()));
         }
     }

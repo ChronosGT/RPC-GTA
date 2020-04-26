@@ -3,7 +3,7 @@ import net from "net";
 import log from "../../module/log/index.mjs";
 
 import { ChatManager } from "../ChatManager.mjs";
-import { EncryptID } from "../../Encryptor/EncryptID/EncryptID.mjs";
+import { Encryptor } from "../../Encryptor/Encryptor.mjs";
 import { UserPoolRPC } from "../../EventRPC/UserPoolRPC/UserPoolRPC.mjs";
 
 export class Broadcast extends ChatManager {
@@ -13,8 +13,8 @@ export class Broadcast extends ChatManager {
 
     action() {
         for (let item of appOptions.user_pool) {
-            const encryptID = new EncryptID(item);
-            let encrypt_address = encryptID.getData();
+            const encryptID = new Encryptor(item);
+            let encrypt_address = encryptID.getEncryptID();
             if (appOptions.connections[encrypt_address] === undefined) {
                 appOptions.connections[encrypt_address] = net.connect(item.port, item.address);
                 appOptions.connections[encrypt_address].on("error", () => {

@@ -1,20 +1,22 @@
-import { ChatManager } from "../ChatManager.mjs";
-import { EncryptID } from "../../Encryptor/EncryptID/EncryptID.mjs";
+import { ChatAbstract } from "../ChatAbstract.mjs";
+import { Encryptor } from "../../Encryptor/Encryptor.mjs";
 import { KeyCompleteRPC } from "../../EventRPC/KeyRPC/KeyCompleteRPC.mjs";
 
-export class KeyComplete extends ChatManager {
-    constructor(client, connection, key) {
+export class KeyComplete extends ChatAbstract {
+    name = "key_complete";
+
+    constructor(data) {
         super();
-        this.client = client;
-        this.connection = connection;
-        this.key = key;
+        this.client = data[1];
+        this.connection = data[2];
+        this.key = data[3];
     }
 
-    action() {
-        const encryptID = new EncryptID(this.client);
+    actions() {
+        const encryptID = new Encryptor(this.client);
         const keyCompleteRPC = new KeyCompleteRPC(appOptions.key);
 
-        appOptions.user_keys[encryptID.getData()] = appKeyInfo.computeSecret(this.key, "base64");
+        appOptions.user_keys[encryptID.getEncryptID()] = appKeyInfo.computeSecret(this.key, "base64");
         this.connection.write(JSON.stringify(keyCompleteRPC.getMessage()));
     }
 }
