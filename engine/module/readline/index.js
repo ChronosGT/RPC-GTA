@@ -1,6 +1,6 @@
 import readline from "readline";
 import log from "../log/index.js";
-import { EventManager } from "../../EventManager/EventManager.js";
+import { EventManager } from "../../events/EventManager.js";
 
 const eventManager = new EventManager();
 

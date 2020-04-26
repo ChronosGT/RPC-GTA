@@ -2,8 +2,8 @@ import net from "net";
 
 import config from "./engine/config.js";
 import log from "./engine/module/log/index.js"
-import { EventManager } from "./engine/EventManager/EventManager.js";
-import { Auth } from "./engine/EventManager/Auth.js";
+import { EventManager } from "./engine/events/EventManager.js";
+import { AuthEvent } from "./engine/events/AuthEvent.js";
 
 const eventManager = new EventManager();
 
@@ -22,7 +22,6 @@ const server = net.createServer(connection => {
   connection.on('data', (data) => {
     data = data.toString();
     data = (typeof data === "object") ? data : JSON.parse(data);
-
     eventManager.fire(data);
   });
 

@@ -6,11 +6,11 @@ import log from "./engine/module/log/index.js"
 import readline from "./engine/module/readline/index.js"
 
 import { AuthRPC } from "./engine/EventRPC/AuthRPC.js";
-import { EventManager } from "./engine/EventManager/EventManager.js";
-import { UserPoolEvent } from "./engine/EventManager/UserPoolEvent.js";
-import { MessageEvent } from "./engine/EventManager/MessageEvent.js";
-import { KeyCheckEvent } from "./engine/EventManager/KeyCheckEvent.js";
-import { SendMessageEvent } from "./engine/EventManager/SendMessageEvent.js";
+import { EventManager } from "./engine/events/EventManager.js";
+import { UserPoolEvent } from "./engine/events/UserPoolEvent.js";
+import { MessageEvent } from "./engine/events/MessageEvent.js";
+import { KeyCheckEvent } from "./engine/events/KeyCheckEvent.js";
+import { SendMessageEvent } from "./engine/events/SendMessageEvent.js";
 
 const eventManager = new EventManager();
 

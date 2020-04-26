@@ -7,7 +7,7 @@ import { Encryptor } from "../Encryptor/Encryptor.js";
 import { UserPoolRPC } from "../EventRPC/UserPoolRPC.js";
 import { EventManager } from "./EventManager.js";
 
-export class Auth extends EventBase {
+export class AuthEvent extends EventBase {
     name = "auth";
 
     actions(data) {
@@ -38,4 +38,4 @@ export class Auth extends EventBase {
     }
 }
 
-EventManager.register(new Auth());
+EventManager.register(new AuthEvent());
