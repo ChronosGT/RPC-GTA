@@ -1,4 +1,4 @@
-import { EventRPC } from "../EventRPC.mjs";
+import { EventRPC } from "./EventRPC.js";
 
 export class AuthRPC extends EventRPC {
     constructor(address, port) {
@@ -9,7 +9,6 @@ export class AuthRPC extends EventRPC {
 
     getMessage() {
         return {
-            id: this.genKey(),
             type: "auth",
             query: [this.address, this.port]
         }

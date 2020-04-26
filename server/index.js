@@ -1,8 +1,10 @@
 import net from "net";
 
-import config from "./engine/config.mjs";
-import log from "./engine/module/log/index.mjs"
-import { Broadcast } from "./engine/ChatManager/Broadcast/Broadcast.mjs";
+import config from "./engine/config.js";
+import log from "./engine/module/log/index.js"
+import { ChatManager } from "./engine/ChatManager/ChatManager.js";
+
+const chatManager = new ChatManager();
 
 global.appOptions = {
   server: {
@@ -20,23 +22,15 @@ const server = net.createServer(connection => {
     data = data.toString();
     data = (typeof data === "object") ? data : JSON.parse(data);
 
-    if (data.type === "auth") {
-      log.info(`Новое подключение: IP: ${data.query[0]} | Порт: ${data.query[1]}`);
-
-      appOptions.user_pool.push({address: data.query[0], port: data.query[1]});
-      const broadcast = new Broadcast();
-      broadcast.action();
-    }
+    chatManager.fire(data);
   });
 
   connection.on('error', () => {
-    const broadcast = new Broadcast();
-    broadcast.action();
+    chatManager.fire({ type: "auth" });
   });
 
   connection.on('close', () => {
-    const broadcast = new Broadcast();
-    broadcast.action();
+    chatManager.fire({ type: "auth" });
   });
 
 });

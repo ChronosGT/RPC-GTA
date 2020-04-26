@@ -1,17 +1,13 @@
-import log from "../../module/log/index.mjs";
-import readline from "../../module/readline/index.mjs";
-import { EventAbstract } from "../EventAbstract.mjs";
-import { Encryptor } from "../../Encryptor/Encryptor.mjs";
+import log from "../module/log/index.js";
+import readline from "../module/readline/index.js";
+import { EventBase } from "./EventBase.js";
+import { Encryptor } from "../Encryptor/Encryptor.js";
 
-export class MessageEvent extends EventAbstract {
+export class MessageEvent extends EventBase {
     name = "message";
 
-    constructor(data) {
-        super();
-        this.data = data
-    }
-
-    actions () {
+    actions (data) {
+        this.data = data;
         const encryptID = new Encryptor(this.data.query[0]);
         let encrypt_address = encryptID.getEncryptID();
 

@@ -1,12 +1,14 @@
 import net from "net";
 import crypto from "crypto"
 
-import config from "./engine/config.mjs";
-import log from "./engine/module/log/index.mjs"
-import readline from "./engine/module/readline/index.mjs"
+import config from "./engine/config.js";
+import log from "./engine/module/log/index.js"
+import readline from "./engine/module/readline/index.js"
 
-import { AuthRPC } from "./engine/EventRPC/AuthRPC/AuthRPC.mjs";
-import { EventManager } from "./engine/EventManager/EventManager.mjs";
+import { AuthRPC } from "./engine/EventRPC/AuthRPC.js";
+import { EventManager } from "./engine/EventManager/EventManager.js";
+
+const eventManager = new EventManager();
 
 global.appKeyInfo = crypto.createECDH("secp256k1");
 appKeyInfo.generateKeys();
@@ -30,9 +32,7 @@ const server = net.createServer(connection => {
         data = data.toString();
         data = (typeof data === "object") ? data : JSON.parse(data);
         data.connection = connection;
-
-        const eventManager = new EventManager(data);
-        eventManager.fire();
+        eventManager.fire(data);
     });
 });
 

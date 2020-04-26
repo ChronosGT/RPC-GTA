@@ -1,4 +1,4 @@
-import { EventRPC } from "../EventRPC.mjs";
+import { EventRPC } from "./EventRPC.js";
 
 export class KeyCheckRPC extends EventRPC {
     constructor(publicKey, client) {
@@ -9,7 +9,6 @@ export class KeyCheckRPC extends EventRPC {
 
     getMessage() {
         return {
-            id: this.genKey(),
             type: "key_check",
             query: [this.publicKey, this.client],
         }

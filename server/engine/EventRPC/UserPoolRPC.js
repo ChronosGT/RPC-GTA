@@ -1,4 +1,4 @@
-import { EventRPC } from "../EventRPC.mjs";
+import { EventRPC } from "./EventRPC.js";
 
 export class UserPoolRPC extends EventRPC {
     constructor(clients) {
@@ -8,7 +8,6 @@ export class UserPoolRPC extends EventRPC {
 
     getMessage() {
         return {
-            id: this.genKey(),
             type: "user_pool",
             query: [this.clients]
         }

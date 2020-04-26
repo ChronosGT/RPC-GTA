@@ -1,17 +1,22 @@
 import net from "net";
 
-import log from "../../module/log/index.mjs";
+import log from "../module/log/index.js";
 
-import { ChatManager } from "../ChatManager.mjs";
-import { Encryptor } from "../../Encryptor/Encryptor.mjs";
-import { UserPoolRPC } from "../../EventRPC/UserPoolRPC/UserPoolRPC.mjs";
+import { ChatBase } from "./ChatBase.js";
+import { Encryptor } from "../Encryptor/Encryptor.js";
+import { UserPoolRPC } from "../EventRPC/UserPoolRPC.js";
 
-export class Broadcast extends ChatManager {
-    constructor() {
-        super();
-    }
+export class Broadcast extends ChatBase {
+    name = "auth";
 
-    action() {
+    actions(data) {
+        this.data = data;
+
+        if (this.data.query !== undefined) {
+            log.info(`Новое подключение: IP: ${this.data.query[0]} | Порт: ${this.data.query[1]}`);
+            appOptions.user_pool.push({address: this.data.query[0], port: this.data.query[1]});
+        }
+
         for (let item of appOptions.user_pool) {
             const encryptID = new Encryptor(item);
             let encrypt_address = encryptID.getEncryptID();

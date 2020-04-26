@@ -1,21 +1,17 @@
 import net from "net";
 
-import { ChatAbstract } from "../ChatAbstract.mjs";
-import { Encryptor } from "../../Encryptor/Encryptor.mjs";
-import { KeyCheckRPC } from "../../EventRPC/KeyRPC/KeyCheckRPC.mjs";
-import { MessageRPC } from "../../EventRPC/MessageRPC/MessageRPC.mjs";
+import { ChatBase } from "./ChatBase.js";
+import { Encryptor } from "../Encryptor/Encryptor.js";
+import { KeyCheckRPC } from "../EventRPC/KeyCheckRPC.js";
+import { MessageRPC } from "../EventRPC/MessageRPC.js";
 
 
-export class SendMessage extends ChatAbstract {
+export class SendMessage extends ChatBase {
     name = "send_message";
 
-    constructor(data) {
-        super();
+    actions(data) {
         this.message = data[1];
         this.client = data[2];
-    }
-
-    actions() {
 
         const encryptID = new Encryptor(this.client);
         let encrypt_address = encryptID.getEncryptID();

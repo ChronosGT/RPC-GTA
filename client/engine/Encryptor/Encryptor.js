@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import config from "../config.mjs";
+import config from "../config.js";
 
 export class Encryptor {
     constructor(text, publicKey = config.encryption) {

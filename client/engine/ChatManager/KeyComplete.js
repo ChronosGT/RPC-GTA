@@ -1,18 +1,15 @@
-import { ChatAbstract } from "../ChatAbstract.mjs";
-import { Encryptor } from "../../Encryptor/Encryptor.mjs";
-import { KeyCompleteRPC } from "../../EventRPC/KeyRPC/KeyCompleteRPC.mjs";
+import { ChatBase } from "./ChatBase.js";
+import { Encryptor } from "../Encryptor/Encryptor.js";
+import { KeyCompleteRPC } from "../EventRPC/KeyCompleteRPC.js";
 
-export class KeyComplete extends ChatAbstract {
+export class KeyComplete extends ChatBase {
     name = "key_complete";
 
-    constructor(data) {
-        super();
+    actions(data) {
         this.client = data[1];
         this.connection = data[2];
         this.key = data[3];
-    }
 
-    actions() {
         const encryptID = new Encryptor(this.client);
         const keyCompleteRPC = new KeyCompleteRPC(appOptions.key);
 

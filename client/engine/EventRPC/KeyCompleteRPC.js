@@ -1,4 +1,4 @@
-import { EventRPC } from "../EventRPC.mjs";
+import { EventRPC } from "./EventRPC.js";
 
 export class KeyCompleteRPC extends EventRPC {
     constructor(publicKey) {
@@ -8,7 +8,6 @@ export class KeyCompleteRPC extends EventRPC {
 
     getMessage() {
         return {
-            id: this.genKey(),
             type: "key_complete",
             query: [this.publicKey],
         }
